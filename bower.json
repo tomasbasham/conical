@@ -1,0 +1,28 @@
+{
+  "name": "conical",
+  "version": "0.1.0",
+  "main": "dist/conical.js",
+  "ignore": [
+    "src",
+    "spec",
+    "tasks",
+    "bower.json",
+    "conical.html",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "devDependencies": {
+    "mocha": "1.21.4",
+    "chai": "1.9.1",
+    "sinon": "http://sinonjs.org/releases/sinon-1.10.3.js"
+  },
+  "keywords": [
+    "statistical",
+    "hypothesis",
+    "javascript",
+    "conical",
+    "split",
+    "test",
+    "ab"
+  ]
+}

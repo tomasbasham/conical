@@ -1,0 +1,50 @@
+{
+  "name": "conical",
+  "description": "Statistical hypothesis testing library",
+  "version": "0.1.0",
+  "main": "dist/conical.js",
+  "homepage": "https://github.com/whichledlight/conical",
+  "author": {
+    "name": "Tomas Basham",
+    "email": "me@tomasbasham.co.uk",
+    "url": "tomasbasham.co.uk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/whichledlight/conical"
+  },
+  "bugs": {
+    "url": "https://github.com/whichledlight/conical/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/whichledlight/conical/blob/master/LICENSE"
+    }
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "build": "grunt build",
+    "test": "grunt"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.x",
+    "grunt-cli": "~0.1.x",
+    "grunt-contrib-jshint": "~0.10.x",
+    "grunt-contrib-clean": "~0.5.x",
+    "grunt-contrib-copy": "~0.5.x",
+    "grunt-contrib-uglify": "~0.5.x",
+    "grunt-mocha-phantomjs": "~0.6.x"
+  },
+  "keywords": [
+    "statistical",
+    "hypothesis",
+    "javascript",
+    "conical",
+    "split",
+    "test",
+    "ab"
+  ]
+}
