@@ -2,9 +2,9 @@ var hyp = (function() {
   'use strict';
 
   /*
-   * Experiment
-   *
    * Constructor for an experiment.
+   *
+   * @method Experiment
    *
    * @param {String} id
    *   The id of the experiment.
@@ -25,7 +25,7 @@ var hyp = (function() {
 
     if(typeof description !== 'string') {
       options = description;
-      description  = null;
+      description = null;
     }
 
     // If this was called on the class then create
@@ -91,7 +91,9 @@ var hyp = (function() {
   Experiment.prototype.hasConverted = false;
 
   /*
-   * hasExpired
+   * Returns whether the experiment has expired.
+   *
+   * @method hasExpired
    *
    * @return {Boolean}
    *   True if the experiment has expired, otherwise false.
@@ -101,12 +103,12 @@ var hyp = (function() {
   };
 
   /*
-   * addVariant
-   *
    * Add a variant to the experiment. A variant
    * comprises of a weighting (default: 0.5) and
    * a callback to run when the variant is
    * chosen for the user.
+   *
+   * @method addVariant
    *
    * @param {String} id
    *   The id of the experiment.
@@ -127,60 +129,45 @@ var hyp = (function() {
 
     if(typeof options !== 'object') {
       _cb = options;
-      options  = {};
+      options = {};
     }
 
-    this.variants.push({
-      id: id,
-      run: _cb,
-      options: options
-    });
+    this.variants.push({ id: id, run: _cb, options: options });
     return this;
   };
 
   /*
-   * segment
-   *
    * Segment the user audience and decide whether
    * the user is to be included in the experiment.
+   *
+   * @method segment
    *
    * @return {Experiment}
    *   The experiment.
    */
   Experiment.prototype.segment = function() {
-    // Has the experiment expired. If so then
-    // throw an error.
     if(this.hasExpired()) {
       throw new Error('This experiment has expired.');
     }
 
-    // If no variants have been added to the
-    // experiment then throw an error.
     if(this.variants.length <= 0) {
       throw new Error('This experiment has no variants.');
     }
 
-    // If the user has already been assigned to
-    // a variant then our work here is done.
     if(this.isParticipating()) {
       return this;
     }
 
     // If the user can participate then assign
-    // then to a variant, otherwise set them to
-    // be not participating.
-    if(this.canParticipate()) {
-      this.participating();
-    } else {
-      this.notParticipating();
-    }
-    return this;
+    // then to a variant, otherwise set the user
+    // as not participating.
+    return this.canParticipate() ? this.participating() : this.notParticipating();
   };
 
   /*
-   * start
-   *
    * Run the chosen vairiant.
+   *
+   * @method start
    *
    * @param {Object} args
    *   Extra arguments to pass to the variant.
@@ -190,6 +177,10 @@ var hyp = (function() {
    */
   Experiment.prototype.start = function(args) {
     var chosenVariant = this.getVariant();
+
+    // Loop through all variants can invoke
+    // the variant's callback funtion for
+    // which the user has been assigned.
     this.variants.forEach((function(_this) {
       return function(v) {
         if(v.id === chosenVariant.variantId) {
@@ -203,9 +194,26 @@ var hyp = (function() {
   };
 
   /*
-   * allocateId
+   * Short hand for invoking any complete handlers. Use
+   * this for experiments that require an action to be
+   * performed such as button clicks.
    *
+   * @method complete
+   *
+   * @return {Experiment}
+   *   The experiment.
+   */
+  Experiment.prototype.complete = function() {
+    this.hasConverted = true;
+    this.trigger('complete', this.getVariant());
+    this.clearVariant();
+    return this;
+  };
+
+  /*
    * Allocate the user a permanent conical id.
+   *
+   * @method allocateId
    *
    * @return {Number}
    *   The user's conical id.
@@ -214,7 +222,8 @@ var hyp = (function() {
     var generateRandomId = (function(_this) {
       return function(min, max) {
         var userId = Math.floor(Math.random() * max + min);
-        return _this.setId(userId);
+        _this.setId(userId);
+        return userId;
       };
     })(this);
 
@@ -222,10 +231,10 @@ var hyp = (function() {
   };
 
   /*
-   * hasId
-   *
    * Tests whether the user already has a
    * conical id set.
+   *
+   * @method hasId
    *
    * @return {Boolean}
    *   True if the user has a conical id, otherwise false.
@@ -235,25 +244,21 @@ var hyp = (function() {
   };
 
   /*
-   * setId
-   *
    * Set the user;s conical id.
    *
-   * @param {Number} id
-   *   The user's conical id.
+   * @method setId
    *
-   * @return {Number}
+   * @param {Number} id
    *   The user's conical id.
    */
   Experiment.prototype.setId = function(id) {
     localStorage.setItem(this.uidKey, id);
-    return id;
   };
 
   /*
-   * getId
-   *
    * Get the user's conical id.
+   *
+   * @method getId
    *
    * @return {Number}
    *   The user's conical id.
@@ -267,10 +272,10 @@ var hyp = (function() {
   };
 
   /*
-   * isParticipating
-   *
    * tests whether the user is already participating
    * within the experiment.
+   *
+   * @method isParticipating
    *
    * @return {Boolean}
    *   True if the user is already participating within the experiment, otherwise false.
@@ -280,10 +285,10 @@ var hyp = (function() {
   };
 
   /*
-   * canParticipate
-   *
    * tests whether the user can participate in
    * this experiment.
+   *
+   * @method canParticipate
    *
    * @return {Boolean}
    *   True if the user can participate, otherwise false.
@@ -293,18 +298,19 @@ var hyp = (function() {
   };
 
   /*
-   * participating
-   *
    * Indicate the user is participating in this
    * experiment and determine the variant to
    * assign them.
+   *
+   * @method participating
    */
   Experiment.prototype.participating = function() {
     var allocateVariant = (function(_this) {
       return function() {
-        var i               = null
-        , cumerlativeWeight = 0
-        , randomVariant     = Math.random();
+        var cumerlativeWeight, randomVariant, i;
+
+        cumerlativeWeight = 0;
+        randomVariant = Math.random();
 
         for(i = 0; i < _this.variants.length; i++) {
           cumerlativeWeight += (_this.variants[i].options.weight || 0.5);
@@ -317,23 +323,25 @@ var hyp = (function() {
     })(this);
 
     this.setVariant(allocateVariant());
+    return this;
   };
 
   /*
-   * notParticipating
-   *
    * Indicate the user is not participating in
    * this experiment.
+   *
+   * @method notParticipating
    */
   Experiment.prototype.notParticipating = function() {
     this.setVariant({ id: 'not-participating' });
+    return this;
   };
 
   /*
-   * hasVariamt
-   *
    * Tests whether a varient exists within the
    * experiments set of variants.
+   *
+   * @method hasVariamt
    *
    * @param {Object} variant
    *   The variant to test.
@@ -348,10 +356,10 @@ var hyp = (function() {
   };
 
   /*
-   * setVariant
-   *
    * Set the variant for a particular experiment in the
    * browser's local storage.
+   *
+   * @method setVariant
    *
    * @param {Object} experiment
    *   The experiment.
@@ -371,28 +379,30 @@ var hyp = (function() {
   };
 
   /*
-   * getVariant
-   *
    * Get the variant for the experiment from the
    * browser's local storage.
+   *
+   * @method getVariant
    *
    * @return {Object}
    *   The chosen variant or null.
    */
   Experiment.prototype.getVariant = function() {
+    var variant;
+
     if(typeof Storage === 'undefined') {
       throw new Error('Local storage is not supported in your browser.');
     }
 
-    var variant = localStorage.getItem(this.storagePrefix);
+    variant = localStorage.getItem(this.storagePrefix);
     return (variant) ? JSON.parse(variant) : null;
   };
 
   /*
-   * clearVariant
-   *
    * Remove the variant for the experiment from the
    * browser's local storage.
+   *
+   * @method clearVariant
    */
   Experiment.prototype.clearVariant = function() {
     if(typeof Storage === 'undefined') {
@@ -403,53 +413,37 @@ var hyp = (function() {
   };
 
   /*
-   * complete
-   *
-   * Short hand for invoking any complete handlers. Use
-   * this for experiments that require an action to be
-   * performed such as button clicks.
-   *
-   * @return {Experiment}
-   *   The experiment.
-   */
-  Experiment.prototype.complete = function() {
-    this.hasConverted = true;
-    this.clearVariant();
-    this.trigger('complete', this.getVariant());
-    return this;
-  };
-
-  /*
-   * trigger
-   *
    * Call, in series, any handlers that have been
    * registered for the event that has been passed
    * in.
+   *
+   * @method trigger
    *
    * @param {String} event
    *   Name of the event.
    */
   Experiment.prototype.trigger = function(event) {
+    var callbacks, args, i;
+
     if(event === 'undefined' || typeof event !== 'string') {
       throw new Error('Handler event name must be a string.');
     }
 
-    var i       = null
-    , callbacks = this.handlers[event] || []
-    , args      = Array.prototype.slice.call(arguments, 1);
+    callbacks = this.handlers[event] || [];
+    args = [].slice.call(arguments, 1);
 
     for(i = 0; i < callbacks.length; i++) {
-      callbacks[i].call(this, args);
+      callbacks[i].apply(this, args);
     }
   };
 
   /*
-   * on
-   *
    * Register a callback handler for the event passed
    * in. An event can have multiple event handlers
    * attached to it that are called in the order they
    * were registered.
+   *
+   * @method on
    *
    * @param {String} event
    *   Name of the event.
@@ -471,6 +465,6 @@ var hyp = (function() {
 })();
 
 // Setup conical appropriately for the environment.
-if (typeof define === 'function' && typeof define.amd !== 'undefined') {
+if(typeof define === 'function' && typeof define.amd !== 'undefined') {
   define('Conical', hyp);
 }

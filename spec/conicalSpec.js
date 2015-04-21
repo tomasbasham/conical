@@ -4,10 +4,10 @@
 var should = chai.should();
 
 describe('conical', function() {
-  var stub = null
-  , done   = function(_cb) {
-    _cb();
-  };
+  var stub, noop;
+
+  stub = null;
+  noop = function() {};
 
   beforeEach(function() {
     localStorage.clear();
@@ -44,13 +44,13 @@ describe('conical', function() {
   describe('variants', function() {
     it('can create a variant', function() {
       var experiment = hyp('test', 'this is a test experiment');
-      experiment.addVariant('variant', done);
+      experiment.addVariant('variant', noop);
       experiment.variants.should.have.length(1);
     });
 
     it('can create a weighted variant', function() {
       var experiment = hyp('test', 'this is a test experiment');
-      experiment.addVariant('variant', { weight: 0.3 }, done);
+      experiment.addVariant('variant', { weight: 0.3 }, noop);
       experiment.variants.should.have.length(1);
     });
   });
@@ -69,8 +69,8 @@ describe('conical', function() {
 
     it('should choose a variant', function() {
       var experiment = hyp('test', 'this is a test experiment');
-      experiment.addVariant('variant-A', { weight: 0.3 }, done);
-      experiment.addVariant('variant-B', { weight: 0.7 }, done);
+      experiment.addVariant('variant-A', { weight: 0.3 }, noop);
+      experiment.addVariant('variant-B', { weight: 0.7 }, noop);
       experiment.segment();
       experiment.variants.should.have.length(2);
       experiment.getVariant().should.deep.equal({ experimentId: 'test', variantId: 'variant-B' });
@@ -78,7 +78,7 @@ describe('conical', function() {
 
     it('should give non participating users an appropriate variant id', function() {
       var experiment = hyp('test', 'this is a test experiment', { sampleSize: 0.2 });
-      experiment.addVariant('variant-A', { weight: 0.3 }, done);
+      experiment.addVariant('variant-A', { weight: 0.3 }, noop);
       experiment.segment();
       experiment.getVariant().should.deep.equal({ experimentId: 'test', variantId: 'not-participating' });
     });
@@ -86,14 +86,17 @@ describe('conical', function() {
 
   it('should respond to triggered events', function(done) {
     var experiment = hyp('test', 'this is a test experiment');
-    experiment.addVariant('variant', { weight: 0.5 }, done).segment();
-    experiment.on('start', function() { done(); });
-    experiment.trigger('start');
+    experiment.addVariant('variant', { weight: 0.5 }, noop).segment();
+    experiment.on('start', function(variant) {
+      should.exist(variant);
+      done();
+    });
+    experiment.start();
   });
 
   it('should be "completable"', function() {
     var experiment = hyp('test', 'this is a test experiment');
-    experiment.addVariant('variant', { weight: 0.5 }, done).segment().complete();
+    experiment.addVariant('variant', { weight: 0.5 }, noop).segment().complete();
     experiment.hasConverted.should.equal(true);
     should.not.exist(experiment.getVariant());
   });
