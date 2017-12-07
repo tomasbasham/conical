@@ -1,0 +1,10 @@
+{
+  "name": "conical",
+  "version": "0.2.0",
+  "description": "A library providing statistical hypothesis testing for front end applications",
+  "url": "https://github.com/tomasbasham/conical",
+  "options": {
+    "outdir": "doc",
+    "paths": ["src"]
+  }
+}

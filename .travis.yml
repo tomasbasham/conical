@@ -1,9 +1,24 @@
+---
 language: node_js
 node_js:
-  - '0.10'
+  - "6"
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.node
+
 before_install:
-  - currentfolder=${PWD##*/}
-  - if [ "$currentfolder" != 'conical' ]; then cd .. && eval "mv $currentfolder conical" && cd conical; fi
-before_script:
-  - npm install -g bower
-  - bower install
+  - npm config set spin false
+
+install:
+  - npm install
+
+script:
+  - npm test
+
+notifications:
+  email: false
+  slack:
+    secure: "pWLL9PcHGn01QUyX8Xi3q/7iA+Zod9Pv9bGwTRfQzL6XYNuino12WNJiTX9g5CXGInhJENCfzt6podJ8dN7gW08OWQCE8GUJHZ4cETPoO8BY4dC8YADUDHn0eP47NKtGrsVCMj0+KxQzCBhwL3bMG9GvmVPrA+J+BENwAIJt3lY="

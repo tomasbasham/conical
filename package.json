@@ -1,42 +1,23 @@
 {
   "name": "conical",
-  "description": "Statistical hypothesis testing library",
-  "version": "0.1.1",
+  "version": "0.2.0",
+  "description": "A library providing statistical hypothesis testing for front end applications",
   "main": "dist/conical.js",
-  "homepage": "https://github.com/whichledlight/conical",
-  "author": {
-    "name": "Tomas Basham",
-    "email": "me@tomasbasham.co.uk",
-    "url": "tomasbasham.co.uk"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/whichledlight/conical"
-  },
-  "bugs": {
-    "url": "https://github.com/whichledlight/conical/issues"
-  },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/whichledlight/conical/blob/master/LICENSE"
-    }
-  ],
-  "engines": {
-    "node": ">=0.10.0"
+  "directories": {
+    "doc": "doc",
+    "lib": "lib",
+    "test": "test"
   },
   "scripts": {
-    "build": "grunt build",
-    "test": "grunt"
+    "build": "babel -d dist src",
+    "docs": "yuidoc",
+    "lint": "eslint src test",
+    "prepublish": "npm run build",
+    "test": "nyc --reporter=text --reporter=html mocha --compilers js:babel-register"
   },
-  "devDependencies": {
-    "grunt": "~0.4.x",
-    "grunt-cli": "~0.1.x",
-    "grunt-contrib-jshint": "~0.10.x",
-    "grunt-contrib-clean": "~0.5.x",
-    "grunt-contrib-copy": "~0.5.x",
-    "grunt-contrib-uglify": "~0.5.x",
-    "grunt-mocha-phantomjs": "~0.6.x"
+  "repository": "https://github.com/tomasbasham/conical",
+  "engines": {
+    "node": ">= 4.3.0"
   },
   "keywords": [
     "statistical",
@@ -46,5 +27,22 @@
     "split",
     "test",
     "ab"
-  ]
+  ],
+  "author": "Tomas Basham <me@tomasbasham.co.uk>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-module-resolver": "^3.0.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "eslint": "^4.11.0",
+    "eslint-plugin-chai-expect": "^1.1.1",
+    "eslint-plugin-mocha": "^4.11.0",
+    "mocha": "^4.0.1",
+    "mock-local-storage": "^1.0.5",
+    "nyc": "^11.3.0",
+    "sinon": "^2.1.0",
+    "yuidocjs": "^0.10.2"
+  }
 }
