@@ -1,6 +1,6 @@
 {
   "name": "conical",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A library providing statistical hypothesis testing for front end applications",
   "main": "dist/conical.js",
   "keywords": [

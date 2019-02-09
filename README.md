@@ -1,4 +1,4 @@
-# conical [![Build Status](https://travis-ci.com/tomasbasham/conical.svg?branch=master)](https://travis-ci.com/tomasbasham/conical)
+# conical [![Build Status](https://travis-ci.com/tomasbasham/conical.svg?branch=master)](https://travis-ci.com/tomasbasham/conical) [![Maintainability](https://api.codeclimate.com/v1/badges/06c59072df4c1515b9f7/maintainability)](https://codeclimate.com/github/tomasbasham/conical/maintainability)
 
 A library providing statistical hypothesis testing for front end applications.
 With more and more web applications moving from a traditional server rendered
