@@ -6,8 +6,12 @@ import 'mock-local-storage';
 
 let sandbox;
 
+const randomMeth = function() {
+  return 0.34702089498750865;
+}
+
 global.window = {};
-window.localStorage = global.localStorage;
+global.window.localStorage = global.localStorage;
 
 describe('conical', function() {
   beforeEach(function() {
@@ -80,11 +84,9 @@ describe('conical', function() {
 
   describe('segmentation', function() {
     it('can choose a variant', function() {
-      sandbox.stub(Math, 'random', function() {
-        return 0.34702089498750865;
+      let experiment = new Conical('test', 'this is a test experiment', {
+        random: randomMeth
       });
-
-      let experiment = new Conical('test', 'this is a test experiment');
 
       const spy = sandbox.spy();
       experiment.addVariant('variant-A', { weight: 0.3 }, () => 42);
@@ -98,11 +100,10 @@ describe('conical', function() {
     });
 
     it('uses the same variant', function() {
-      sandbox.stub(Math, 'random', function() {
-        return 0.34702089498750865;
+      let experiment = new Conical('test', 'this is a test experiment', {
+        random: randomMeth
       });
 
-      let experiment = new Conical('test', 'this is a test experiment');
       experiment.addVariant('variant-A', { weight: 0.4 });
       experiment.segment();
 
@@ -118,11 +119,9 @@ describe('conical', function() {
     });
 
     it('defaults to a non chosen variant', function() {
-      sandbox.stub(Math, 'random', function() {
-        return 0.34702089498750865;
+      let experiment = new Conical('test', 'this is a test experiment', {
+        random: randomMeth
       });
-
-      let experiment = new Conical('test', 'this is a test experiment');
 
       const spy = sandbox.spy();
       experiment.addVariant('variant-A', { weight: 0.3 }, spy);
@@ -135,12 +134,9 @@ describe('conical', function() {
     });
 
     it('gives non participating users a variant id', function() {
-      sandbox.stub(Math, 'random', function() {
-        return 0.34702089498750865;
-      });
-
       let experiment = new Conical('test', 'this is a test experiment', {
-        sampleSize: 0.2
+        sampleSize: 0.2,
+        random: randomMeth
       });
 
       const spy = sandbox.spy();
@@ -175,11 +171,10 @@ describe('conical', function() {
 
     describe('when there are variants', function() {
       it('invokes the start handler', function() {
-        sandbox.stub(Math, 'random', function() {
-          return 0.34702089498750865;
+        let experiment = new Conical('test', 'this is a test experiment', {
+          random: randomMeth
         });
 
-        let experiment = new Conical('test', 'this is a test experiment');
         experiment.addVariant('variant', () => 42);
 
         const spy = sandbox.spy();
@@ -195,11 +190,10 @@ describe('conical', function() {
 
   describe('when an experiment is complete', function() {
     it('invokes the complete handler', function() {
-      sandbox.stub(Math, 'random', function() {
-        return 0.34702089498750865;
+      let experiment = new Conical('test', 'this is a test experiment', {
+        random: randomMeth
       });
 
-      let experiment = new Conical('test', 'this is a test experiment');
       experiment.addVariant('variant', () => 42);
 
       const spy = sandbox.spy();
@@ -242,7 +236,7 @@ describe('conical', function() {
     it('throws an exception', function() {
       const newConical = () => new Conical('test', 'this is a test experiment');
 
-      sandbox.stub(window, 'localStorage', undefined);
+      sandbox.stub(global.window, 'localStorage').value(undefined);
       expect(newConical).to.throw('localStorage is unavailable in this environment');
     });
   });
