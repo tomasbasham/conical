@@ -28,7 +28,7 @@ deploy:
   email: me@tomasbasham.co.uk
   skip_cleanup: true
   api_key:
-    secure: "YgG6OVlYkHCj9adO2JeZZms8qg/qJY3lDS0o12CORfFCGAmiwZc1XVcKD8MzKDuG4bCmZxSf0E4078Pkxg9GqzPg5YpyU7GOq37BeSxagoxZyT6cPIB04Pm9WZsrIe3T4xvFsmJpyMZuM+nHbgfO0netw5qf8r81otvMN6XXOck="
+    secure: "vMLMnCzp53tDY3EA0R47hTtVyvOPQ6Ad+99ozFIzGK2k03oYmd+RKgsNrXzEZe7EqjoC4vl9XRRRhSZrggK2sFjlDP/+0SaIzoRsahsQ+9J/21ZIEo2iNzWmuEAZTNkyvGAgK9l2zr6pIq8cjhmVkjbddYa8fcTVQMe2sAF5buM="
   on:
     tags: true
     repo: tomasbasham/conical
