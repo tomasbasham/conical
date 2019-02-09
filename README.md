@@ -8,8 +8,9 @@ harder to collect and collate.
 ## Installation
 
 From within your project directory run:
-```
-npm install conical
+
+```bash
+npm install --save conical
 ```
 
 ## Usage
@@ -31,19 +32,6 @@ that are triggered upon particular actions. These give you the chance to report
 participation and successful conversions to the analytics engine of your
 choice.
 
-## Development
+## License
 
-### Installation
-
-* `git clone <repository-url>` this repository
-* `cd conical`
-* `npm install`
-
-### Running Tests
-
-* `npm test` (Runs `mocha` to test your library against an ES5 compatible
-environment)
-
-### Building
-
-* `npm run build`
+This project is licensed under the [MIT License](LICENSE.md).

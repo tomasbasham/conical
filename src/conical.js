@@ -50,7 +50,8 @@ class Conical {
      * @property options
      */
     this.options = Object.assign({}, {
-      sampleSize: 1
+      sampleSize: 1,
+      random: Math.random
     }, options);
 
     /**
@@ -274,7 +275,7 @@ class Conical {
    */
   assignId() {
     const generateRandomId = (min, max) => {
-      const id = Math.floor(Math.random() * max + min);
+      const id = Math.floor(this.options.random() * max + min);
       this.setId(id);
       return id;
     };
@@ -329,7 +330,7 @@ class Conical {
    */
   participating() {
     const allocateVariant = () => {
-      const randomVariant = Math.random();
+      const randomVariant = this.options.random();
       let cumerlativeWeight = 0;
 
       for(let variant of this.variants) {

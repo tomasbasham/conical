@@ -3,22 +3,6 @@
   "version": "0.2.0",
   "description": "A library providing statistical hypothesis testing for front end applications",
   "main": "dist/conical.js",
-  "directories": {
-    "doc": "doc",
-    "lib": "lib",
-    "test": "test"
-  },
-  "scripts": {
-    "build": "babel -d dist src",
-    "docs": "yuidoc",
-    "lint": "eslint src test",
-    "prepublish": "npm run build",
-    "test": "nyc --reporter=text --reporter=html mocha --compilers js:babel-register"
-  },
-  "repository": "https://github.com/tomasbasham/conical",
-  "engines": {
-    "node": ">= 4.3.0"
-  },
   "keywords": [
     "statistical",
     "hypothesis",
@@ -28,8 +12,21 @@
     "test",
     "ab"
   ],
-  "author": "Tomas Basham <me@tomasbasham.co.uk>",
+  "repository": "https://github.com/tomasbasham/conical",
   "license": "MIT",
+  "author": "Tomas Basham <me@tomasbasham.co.uk>",
+  "directories": {
+    "doc": "doc",
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "build": "babel -d dist src",
+    "docs": "yuidoc",
+    "lint:js": "eslint ./*.js src test",
+    "prepublish": "npm run build",
+    "test": "nyc --reporter=text --reporter=html mocha --require babel-register"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-module-resolver": "^3.0.0",
@@ -44,5 +41,8 @@
     "nyc": "^11.3.0",
     "sinon": "^2.1.0",
     "yuidocjs": "^0.10.2"
+  },
+  "engines": {
+    "node": ">= 4.3.0"
   }
 }

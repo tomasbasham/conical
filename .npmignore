@@ -1,12 +1,17 @@
+# dependencies
 /bower_components
+
+# misc
+/.bowerrc
+/.editorconfig
+/.eslintrc.js
+/.gitignore
+/.node-version
+/.nvmrc
+/.travis.yml
+/bower.json
 /src
-/test
-**/.gitkeep
-.bowerrc
-.editorconfig
-.gitignore
-.eslintrc.js
-.watchmanconfig
-.travis.yml
-bower.json
-testem.js
+/test/
+/yarn.lock
+/yuidoc.json
+.gitkeep
