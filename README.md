@@ -1,4 +1,4 @@
-# conical [![Build Status](https://secure.travis-ci.org/tomasbasham/conical.png?branch=master)](https://travis-ci.org/tomasbasham/conical)
+# conical [![Build Status](https://travis-ci.com/tomasbasham/conical.svg?branch=master)](https://travis-ci.com/tomasbasham/conical)
 
 A library providing statistical hypothesis testing for front end applications.
 With more and more web applications moving from a traditional server rendered
